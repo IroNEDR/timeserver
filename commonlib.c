@@ -56,12 +56,14 @@ void create_response(char *response, size_t response_size)
 {
     char *response_header = "HTTP/1.1 200 OK\r\n"
                             "Connection: close\r\n"
-                            "Content-Type: text/plain\r\n"
-                            "Content-length: 37 \r\n\r\n";
+                            "Content-Type: application/json\r\n"
+                            "Content-length: 41 \r\n\r\n";
     time_t timer;
     time(&timer);
-    const char *current_time = ctime(&timer);
-    int l = snprintf(response, response_size, "%slocal_time: %s", response_header, current_time);
+    char *current_time = ctime(&timer);
+    int max_len = strlen(current_time);
+    current_time[max_len - 1] = 0;
+    int l = snprintf(response, response_size, "%s{\"local_time\":\"%s\"}", response_header, current_time);
     if (l > response_size)
         print_error("buffer length too long");
 }

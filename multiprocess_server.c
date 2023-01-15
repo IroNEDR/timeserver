@@ -45,7 +45,7 @@ int main()
             // close listener port, as we won't need that in the child process
             close(listener_socket);
 
-            char response[151];
+            char response[135];
             create_response(response, sizeof(response));
             send_message(client_socket, response);
 
